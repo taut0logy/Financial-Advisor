@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox id="loginBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.advancedprogramminglab.financial_advisor.LoginController">
+   <children>
+      <Label fx:id="welcomeTextLogin" text="Welcome to your very own Financial Advisor">
+         <font>
+            <Font name="Inter Semi Bold Italic" size="16.0" />
+         </font></Label>
+      <TextField fx:id="loginEmail" maxHeight="30.0" maxWidth="300.0" minHeight="30.0" minWidth="200.0" prefHeight="30.0" prefWidth="300.0" promptText="Email" />
+      <PasswordField fx:id="loginPass" maxHeight="30.0" maxWidth="300.0" minHeight="30.0" minWidth="200.0" prefHeight="30.0" prefWidth="300.0" promptText="Password" />
+      <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#initialize" text="SIGN IN" />
+   </children>
+</VBox>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="helloRoot"
+        alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.advancedprogramminglab.financial_advisor.HelloController"
+    prefHeight="700" prefWidth="1000"
+      minHeight="-Infinity" minWidth="Infinity"
+      maxHeight="Infinity" maxWidth="Infinity"
+>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="welcomeText" text="Hello!" />
+   <Button fx:id="cdi" mnemonicParsing="false"  text="Button" textAlignment="CENTER">
+      <font>
+         <Font name="DejaVu Serif" size="12.0" />
+      </font></Button>
+    <Button onAction="#onHelloButtonClick" text="Hello!" />
+   <PieChart fx:id="chartPieFruit"
+             title="fruitChart"
+             minHeight="500"
+             minWidth="400"
+             prefHeight="400"
+             prefWidth="500"
+             maxHeight="600"
+             maxWidth="600"
+            animated="true"
+            legendVisible="true"
+            labelsVisible="true"
+            clockwise="false"
+            startAngle="90.0"
+            legendSide="RIGHT"
+            style="-fx-font-size: 20px;"
+            BorderPane.alignment="CENTER"
+
+   />
+</VBox>
