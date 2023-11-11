@@ -1,0 +1,36 @@
+
+
+#loginBox {
+    -fx-background-color: #212121; /* Background color */
+    -fx-text-fill: white; /* Text color */
+}
+
+Label {
+    -fx-font-family: "Century Gothic Italic";
+    -fx-font-size: 24.0;
+    -fx-text-fill: #03A9F4;
+    -fx-alignment: center;
+}
+
+TextField, PasswordField {
+    -fx-background-color: #424242; /* Text field background color */
+    -fx-text-fill: white; /* Text color */
+    -fx-prompt-text-fill: #BDBDBD; /* Prompt text color */
+}
+
+Button {
+    -fx-background-color: #03A9F4; /* Button background color */
+    -fx-text-fill: #212121; /* Button text color */
+    -fx-font-weight: bold;
+}
+
+#dontTextLogin {
+    -fx-text-fill: #03A9F4; /* Link text color */
+    -fx-font-size: 14.0;
+}
+
+#dontTextLogin:hover {
+    -fx-underline: true;
+    -fx-text-fill: #BDBDBD;
+    /* Underline on hover for link */
+}

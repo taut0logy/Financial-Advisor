@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="signupPane" fx:id="signupanchor" prefHeight="450.0" prefWidth="600.0" stylesheets="@../style/signup_theme.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.advancedprogramminglab.financial_advisor.SignupController">
+    <!-- Sidebar with a picture -->
+    <VBox id="sidebar" fx:id="sidebarvbox" prefHeight="450.0" prefWidth="200.0" style="-fx-background-color: #263238;">
+      <children>
+           <ImageView fx:id="imgsignup" fitHeight="450.0" fitWidth="200.0" pickOnBounds="true">
+               <image>
+                   <Image url="@../img/signup_img.jpg" />
+               </image>
+           </ImageView>
+      </children>
+    </VBox>
+
+    <!-- Signup form -->
+    <VBox id="signupForm" layoutX="251.0" layoutY="50.0" prefHeight="314.0" prefWidth="299.0" spacing="10.0">
+        <Label id="alreadyLabel" style="-fx-font-size: 20.0; -fx-font-weight: bold;" text="Create an Account" textAlignment="CENTER">
+         <font>
+            <Font name="Century Gothic Italic" size="12.0" />
+         </font></Label>
+
+        <TextField fx:id="usernameField" promptText="Username" />
+        <TextField fx:id="firstNameField" promptText="First Name" />
+        <TextField fx:id="lastNameField" promptText="Last Name" />
+        <TextField fx:id="emailField" promptText="Email" />
+        <PasswordField fx:id="passwordField" promptText="Password" />
+        <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" />
+
+        <Button fx:id="signupButton" text="Sign Up" />
+
+        <Label id="loginText" fx:id="dontlogin" style="-fx-text-fill: #B0BEC5;" text="Already have an account? Log in">
+            <font>
+                <Font size="12.0" />
+            </font>
+        </Label>
+    </VBox>
+</AnchorPane>

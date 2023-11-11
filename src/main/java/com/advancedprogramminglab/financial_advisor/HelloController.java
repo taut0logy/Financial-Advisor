@@ -36,15 +36,16 @@ public class HelloController {
         welcomeText.setText("JavaFX Application CDI");
         LaunchApplication.logOut();
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login-view.fxml")));
+            Parent root = FXMLLoader.load(getClass().getResource("layout/login-view.fxml"));
             Scene scene = new Scene(root);
+            ((Stage) helloRoot.getScene().getWindow()).close();
             Stage stage = new Stage();
             stage.setTitle("Login");
             stage.setScene(scene);
             stage.show();
             // Hide this current window (if this is what you want)
             //((Node)(event.getSource())).getScene().getWindow().hide();
-            ((Stage) helloRoot.getScene().getWindow()).close();
+
         }
         catch (IOException e) {
             e.printStackTrace();

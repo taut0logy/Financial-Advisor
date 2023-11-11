@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -24,19 +26,17 @@ public class LoginController {
     public Button btnLogin;
     @FXML
     public VBox loginRoot;
+    @FXML
+    public Label dontTextLogin;
 
 
     public void initialize() {
-
-        //Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        welcomeTextLogin.setText("Welcome to your very own Financial Advisor!");
         btnLogin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 onLoginButtonClick(event);
             }
         });
-
 
     }
 
@@ -88,7 +88,7 @@ public class LoginController {
             alert.showAndWait();
             //load hello page
             try {
-                LaunchApplication.changeScene("hello-view.fxml", event);
+                LaunchApplication.changeScene("layout/hello-view.fxml", event);
             } catch (IOException e) {
                 String msg2="LoginController.onLoginButtonClick(): "+e.getMessage();
                 System.out.println(msg2);
@@ -100,34 +100,31 @@ public class LoginController {
     }
 
 
-}
+    public void ondontentered(MouseEvent mouseEvent) {
+        //dontTextLogin.setUnderline(true);
+    }
 
-//    User use = new User();
-//    int c=DBConnector.getUser(id,use);
-//            if(c==0){
-//                    System.out.println(msg+"User not found");
-//                    Alert alert = new Alert(Alert.AlertType.ERROR);
-//                    alert.setTitle("Error");
-//                    alert.setHeaderText("User not found");
-//                    alert.setContentText("Please enter a valid username.\nNB: usernames are case sensitive.");
-//                    alert.showAndWait();
-//                    return;
-//                    }
-//                    LaunchApplication.setCurrentUser(use);
-//                    User user = LaunchApplication.getCurrentUser();
-//                    System.out.println(msg+"Login successful");
-//                    System.out.println(msg+user.getFirstName()+" "+user.getLastName());
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setTitle("Success");
-//                    alert.setHeaderText("Login successful");
-//                    alert.setContentText("Welcome "+user.getFirstName()+" "+user.getLastName());
-//                    alert.showAndWait();
-//                    //load hello page
-//                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-//        Scene scene = null;
-//        try {
-//        scene = new Scene(fxmlLoader.load(), 600, 400);
-//        } catch (IOException e) {
-//        String msg2="LoginController.onLoginButtonClick(): "+e.getMessage();
-//        System.out.println(msg2);
-//        }
+    public void ondontexited(MouseEvent mouseDragEvent) {
+        //dontTextLogin.setUnderline(false);
+    }
+
+    public void dontonmouseclicked(MouseEvent mouseEvent) {
+        //load signup page
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/signup-view.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage1 = (Stage) dontTextLogin .getScene().getWindow();
+            stage1.close();
+            Stage stage = new Stage();
+            stage.setTitle("Financial Advisor - Sign up");
+            stage.setScene(new Scene(root));
+            stage.show();
+            //close current stage
+
+        } catch (IOException e) {
+            String msg="LoginController.dontonmouseclicked(): "+e.getMessage();
+            System.out.println(msg);
+        }
+
+    }
+}

@@ -67,8 +67,7 @@ public class LaunchApplication extends Application {
         if(username.isEmpty()){
 
             System.out.println(msg+"No user logged in");
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/login-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             primaryStage.setTitle("Financial Advisor");
             primaryStage.setScene(scene);
@@ -78,7 +77,7 @@ public class LaunchApplication extends Application {
             User user=new User();
             DBConnector.getUser(uid,user);
             LaunchApplication.setCurrentUser(user);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/hello-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             primaryStage.setTitle("Financial Advisor");
             primaryStage.setScene(scene);
