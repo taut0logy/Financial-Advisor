@@ -9,11 +9,26 @@
     <!-- Sidebar with a picture -->
     <VBox id="sidebar" fx:id="sidebarvbox" prefHeight="450.0" prefWidth="200.0" style="-fx-background-color: #263238;">
       <children>
-           <ImageView fx:id="imgsignup" fitHeight="450.0" fitWidth="200.0" pickOnBounds="true">
-               <image>
-                   <Image url="@../img/signup_img.jpg" />
-               </image>
-           </ImageView>
+         <StackPane prefHeight="451.0" prefWidth="200.0">
+             <children>
+                 <ImageView fx:id="imgsignup" fitHeight="450.0" fitWidth="200.0" pickOnBounds="true">
+                     <image>
+                         <Image url="@../img/gradient_img.png" />
+                     </image>
+                 </ImageView>
+                 <AnchorPane>
+                  <children>
+                     <ImageView id="signup" fx:id="imgprofile" fitHeight="150.0" fitWidth="150.0" layoutX="25.0" layoutY="118.0" pickOnBounds="true">
+                             <image>
+                                 <Image url="@../img/profile.jpg" />
+                             </image>
+
+                     </ImageView>
+                     <Button id="imgbtn" fx:id="imgprofilebtn" layoutX="36.0" layoutY="312.0" mnemonicParsing="false" text="Add Profile Picture" />
+                  </children>
+                 </AnchorPane>
+             </children>
+         </StackPane>
       </children>
     </VBox>
 
@@ -31,7 +46,7 @@
         <PasswordField fx:id="passwordField" promptText="Password" />
         <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" />
 
-        <Button fx:id="signupButton" text="Sign Up" />
+        <Button id="signupbtn" fx:id="signupButton" text="Sign Up" />
 
         <Label id="loginText" fx:id="dontlogin" style="-fx-text-fill: #B0BEC5;" text="Already have an account? Log in">
             <font>

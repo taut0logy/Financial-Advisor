@@ -2,14 +2,20 @@ package com.advancedprogramminglab.financial_advisor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.sql.Connection;
 
 public class SignupController {
     public AnchorPane signupanchor;
@@ -23,14 +29,16 @@ public class SignupController {
     public Button signupButton;
     public Label dontlogin;
     public TextField emailField;
+    public ImageView imgprofile;
+    public Button imgprofilebtn;
+
+    private String imgPath;
 
     public void initialize() {
-        signupButton.setOnAction(event -> {
-            onSignupButtonClick(event);
-        });
-        dontlogin.setOnMouseClicked(event -> {
-            onDontLoginClick(event);
-        });
+        signupButton.setOnAction(this::onSignupButtonClick);
+        dontlogin.setOnMouseClicked(this::onDontLoginClick);
+        imgprofilebtn.setOnAction(this::onImgprofilebtnClick);
+        imgPath="src/main/resources/com/advancedprogramminglab/financial_advisor/img/profile.jpg";
     }
 
     private void onDontLoginClick(MouseEvent event) {
@@ -104,16 +112,40 @@ public class SignupController {
                 alert.showAndWait();
                 return;
             }
-            Stage stage2 = (Stage) signupanchor.getScene().getWindow();
+            Connection con = DBConnector.get();
+            String table="CREATE TABLE `financial_advisor`.`"+String.valueOf(LaunchApplication.getCurrentUser().getId())+"` (\n" +
+                    "  `index` INT UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
+                    "  `transaction` JSON NOT NULL,\n" +
+                    "  PRIMARY KEY (`index`));";
+            try {
+                assert con != null;
+                con.createStatement().executeUpdate(table);
+            } catch (Exception e) {
+                System.out.println("SignupController.onSignupButtonClick(): " + e.getMessage());
+            }
+            System.out.println(msg+"imgPath: "+imgPath);
+            File file = new File(imgPath);
+            if(!file.exists()){
+                //get file from resources
+                file = new File(imgPath);
+                if(!file.exists()){
+                    System.out.println(msg+"File not found");
+                    return;
+                }
+            }
+            DBConnector.saveImageToDatabase(LaunchApplication.getCurrentUser().getId(), file);
+            System.out.println(msg+"pic saved");
+            Stage stage2 = (Stage) signupButton.getScene().getWindow();
             stage2.close();
             Stage stage = new Stage();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/hello-view.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/hello-view.fxml"));
+                Parent root = fxmlLoader.load();
                 stage.setTitle("Welcome!");
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (Exception e) {
-                System.out.println("SignupController.onSignupButtonClick(): " + e.getMessage());
+                System.out.println("SignupController.onSignupButtonClick(): " + e.toString());
             }
         }
     }
@@ -125,5 +157,46 @@ public class SignupController {
         }
         return true;
     }
+
+    private void onImgprofilebtnClick(ActionEvent event) {
+        //selcect image
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Profile Picture");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+        Stage stage = (Stage) imgprofilebtn.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if(selectedFile!=null) {
+            //get file size
+            long size = selectedFile.length();
+            if(size>18000000){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("File too large");
+                alert.setContentText("Please select a file less than 1MB.");
+                alert.showAndWait();
+                return;
+            }
+            imgPath = selectedFile.getAbsolutePath();
+            System.out.println("File selected: " + imgPath);
+            System.out.println("File selected: " + selectedFile.getAbsolutePath());
+            System.out.println("File selected: " + selectedFile.toURI().toString());
+            Image image = new Image(selectedFile.toURI().toString());
+            double desiredWidth = image.getWidth();
+            double desiredHeight = image.getWidth();
+
+            double centerX = image.getWidth() / 2;
+            double centerY = image.getHeight() / 2;
+
+            double cropX = centerX - (desiredWidth / 2);
+            double cropY = centerY - (desiredHeight / 2);
+
+            imgprofile.setViewport(new Rectangle2D(cropX, cropY, desiredWidth, desiredHeight));
+            imgprofile.setImage(image);
+        }
+
+    }
+
 }
 

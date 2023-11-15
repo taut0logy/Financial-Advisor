@@ -6,10 +6,14 @@
 #sidebar {
     -fx-background-color: #263238; /* Sidebar background color */
     -fx-background-radius: 6.0;
+
+
 }
 
 ImageView {
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 0); /* Drop shadow for the image */
+    -fx-border-radius: 6.0;
+    -fx-background-radius: 6.0;
 }
 
 #signupForm {
@@ -34,11 +38,7 @@ TextField, PasswordField {
     -fx-prompt-text-fill: #BDBDBD; /* Prompt text color */
 }
 
-Button {
-    -fx-background-color: #03A9F4; /* Button background color */
-    -fx-text-fill: #212121; /* Button text color */
-    -fx-font-weight: bold;
-}
+
 
 #loginText {
     -fx-font-family: "Century Gothic Italic";
@@ -48,4 +48,23 @@ Button {
 
 #loginText:hover {
     -fx-underline: true; /* Underline on hover for link */
+}
+
+#loginText:pressed {
+    -fx-text-fill: #03A9F4; /* Link text color on press */
+}
+
+#imgprofilebtn {
+    -fx-background-color: #B0BEC5; /* Button background color */
+    -fx-text-fill: #212121; /* Button text color */
+    -fx-font-weight: bold;
+}
+Button {
+    -fx-background-color: #03A9F4;
+    -fx-background-radius: 5 5 5 5;
+    -fx-text-fill: #212121; /* Button text color */
+    -fx-font-weight: bold;
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5 5 5 5;
 }

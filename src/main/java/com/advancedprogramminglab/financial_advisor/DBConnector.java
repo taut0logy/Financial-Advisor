@@ -5,10 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class DBConnector {
@@ -27,11 +32,10 @@ public class DBConnector {
         }
         return null;
     }
-        public static int getUser(int id,User user){
+    public static int getUser(int id,User user){
         Connection con = DBConnector.get();
         String table="financial_advisor.user_info";
         String finduser="select * from "+table;
-        //User user = new User();
         try {
             assert con != null;
             Statement stmt = con.createStatement();
@@ -155,11 +159,10 @@ public class DBConnector {
                     int id=rs.getInt(3);
                     String update="update "+table+" set password='"+password+"' where id="+id;
                     stmt.executeUpdate(update);
-                    con.close();
-                    con = DBConnector.get();
                     table="financial_advisor.user_info";
                     update="update "+table+" set first_name='"+firstName+"',last_name='"+lastName+"',email='"+email+"' where id="+id;
-                    stmt.executeUpdate(update);
+                    Statement stmt2 = con.createStatement();
+                    stmt2.executeUpdate(update);
                     con.close();
                     return 1;
                 }
@@ -185,11 +188,10 @@ public class DBConnector {
                     int id=rs.getInt(3);
                     String delete="delete from "+table+" where id="+id;
                     stmt.executeUpdate(delete);
-                    con.close();
-                    con = DBConnector.get();
                     table="financial_advisor.user_info";
                     delete="delete from "+table+" where id="+id;
-                    stmt.executeUpdate(delete);
+                    Statement stmt2 = con.createStatement();
+                    stmt2.executeUpdate(delete);
                     con.close();
                     return 1;
                 }
@@ -201,5 +203,87 @@ public class DBConnector {
             System.out.println(msg);
         }
         return 0;
+    }
+
+    static void saveImageToDatabase(int id,File file)
+    {
+        Connection con = DBConnector.get();
+        String table="financial_advisor.profile_pic";
+        String insert="insert into "+table+" (id,pic) values(?,?)";
+        try {
+            assert con != null;
+            PreparedStatement ps=con.prepareStatement(insert);
+            ps.setInt(1,id);
+            ps.setBytes(2,convertToByteArray(file));
+            //System.out.println("DBConnector.saveImageToDatabase(): "+ ps.toString());
+            ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            String msg="DBConnector.saveImageToDatabase(): "+e.getMessage();
+            System.out.println(msg);
+        }
+    }
+
+    //get image from database
+    static Image getImageFromDatabase(int id)
+    {
+        Connection con = DBConnector.get();
+        String table="financial_advisor.profile_pic";
+        String finduser="select * from "+table;
+        try {
+            assert con != null;
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(finduser);
+            while (rs.next()){
+                if(id==rs.getInt(1)) {
+                    byte[] b = rs.getBytes(2);
+                    Image image = new Image(new ByteArrayInputStream(b));
+                    con.close();
+                    return image;
+                }
+            }
+            con.close();
+        } catch (Exception e) {
+            String msg="DBConnector.getImageFromDatabase(): "+e.getMessage();
+            System.out.println(msg);
+        }
+        return null;
+    }
+
+    static byte[] getImageByteFromDatabaseAsByteArray(int id)
+    {
+        Connection con = DBConnector.get();
+        String table="financial_advisor.profile_pic";
+        String finduser="select * from "+table;
+        try {
+            assert con != null;
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(finduser);
+            while (rs.next()){
+                if(id==rs.getInt(1)) {
+                    byte[] b = rs.getBytes(2);
+                    con.close();
+                    return b;
+                }
+            }
+            con.close();
+        } catch (Exception e) {
+            String msg="DBConnector.getImageFromDatabaseAsByteArray(): "+e.getMessage();
+            System.out.println(msg);
+        }
+        return null;
+    }
+    static byte[] convertToByteArray(File file) {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            byte[] b = new byte[(int) file.length()];
+            fis.read(b);
+            return b;
+        } catch (Exception e) {
+            String msg="DBConnector.convertToByteArray(): "+e.getMessage();
+            System.out.println(msg);
+        }
+        return null;
+
     }
 }

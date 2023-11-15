@@ -1,10 +1,12 @@
 package com.advancedprogramminglab.financial_advisor;
 
+import javafx.scene.image.Image;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class User {
-    private String username,firstName,lastName,email,password;
+    private String username,firstName,lastName,email;
     private Timestamp dateJoined;
     private int id;
 
@@ -40,14 +42,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Timestamp getDateJoined() {
         return dateJoined;
     }
@@ -65,12 +59,11 @@ public class User {
     }
 
     public User(){}
-    public User(String username, String firstName, String lastName, String email, String password, Timestamp dateJoined, int id) {
+    public User(String username, String firstName, String lastName, String email, Timestamp dateJoined, int id) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.dateJoined = dateJoined;
         this.id = id;
     }

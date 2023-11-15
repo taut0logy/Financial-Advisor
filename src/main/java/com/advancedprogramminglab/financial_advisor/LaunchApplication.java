@@ -105,6 +105,7 @@ public class LaunchApplication extends Application {
             assert con != null;
             Statement stmt = con.createStatement();
             stmt.executeUpdate("delete from "+table+" where username='"+username+"'");
+            con.close();
         } catch (Exception e) {
             System.out.println(msg+e.getMessage());
         }

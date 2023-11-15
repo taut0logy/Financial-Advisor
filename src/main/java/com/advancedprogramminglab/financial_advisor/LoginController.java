@@ -86,9 +86,17 @@ public class LoginController {
             alert.setHeaderText("Login successful");
             alert.setContentText("Welcome "+user.getFirstName()+" "+user.getLastName());
             alert.showAndWait();
+            Stage stage1 = (Stage) btnLogin.getScene().getWindow();
+            stage1.close();
+            Stage stage = new Stage();
+            stage.setTitle("Financial Advisor - Home");
             //load hello page
             try {
-                LaunchApplication.changeScene("layout/hello-view.fxml", event);
+                //LaunchApplication.changeScene("layout/hello-view.fxml", event);
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/hello-view.fxml"));
+                Parent root = fxmlLoader.load();
+                stage.setScene(new Scene(root));
+                stage.show();
             } catch (IOException e) {
                 String msg2="LoginController.onLoginButtonClick(): "+e.getMessage();
                 System.out.println(msg2);
