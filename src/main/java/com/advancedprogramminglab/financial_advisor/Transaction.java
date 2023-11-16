@@ -26,6 +26,61 @@ public class Transaction {
         this.color = color;
     }
 
+    boolean isExpense(){
+        return id==2;
+    }
+    boolean isIncome(){
+        return id==1;
+    }
+    boolean isSavings(){
+        return id==3;
+    }
+    boolean isInvestment(){
+        return id==4;
+    }
+    boolean isLoan(){
+        return id==5;
+    }
+
+    boolean isBefore(Date d){
+        return date.before(d);
+    }
+
+    boolean isAfter(Date d){
+        return date.after(d);
+    }
+
+    boolean isBetween(Date d1,Date d2){
+        return date.after(d1) && date.before(d2);
+    }
+
+    boolean isBetweenInclusive(Date d1,Date d2){
+        return date.equals(d1) || date.equals(d2) || (date.after(d1) && date.before(d2));
+    }
+
+    boolean isBefore(Transaction t){
+        return date.before(t.getDate());
+    }
+
+
+    public String toString() {
+        String sign="+";
+        if(isExpense())
+            sign="-";
+        else if(isIncome())
+            sign="+";
+        else if(isSavings())
+            sign="+";
+        else if(isInvestment())
+            sign="+";
+        else if(isLoan())
+            sign="-";
+        String dates=date.toString();
+        //dates=dates.substring(0,dates.indexOf(" "));
+        String s =type+": "+sign+String.valueOf(amount)+" "+description+" "+dates;
+        return s;
+    }
+
     public JsonObject toJSON() {
         Gson gson = new Gson();
         JsonObject jsonObject = new com.google.gson.JsonObject();
@@ -37,6 +92,8 @@ public class Transaction {
         jsonObject.addProperty("color", color);
         return jsonObject;
     }
+
+
 
 
 

@@ -139,7 +139,7 @@ public class SignupController {
             stage2.close();
             Stage stage = new Stage();
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/hello-view.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/dashboard-view.fxml"));
                 Parent root = fxmlLoader.load();
                 stage.setTitle("Welcome!");
                 stage.setScene(new Scene(root));

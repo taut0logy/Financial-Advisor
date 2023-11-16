@@ -93,7 +93,7 @@ public class LoginController {
             //load hello page
             try {
                 //LaunchApplication.changeScene("layout/hello-view.fxml", event);
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/hello-view.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/dashboard-view.fxml"));
                 Parent root = fxmlLoader.load();
                 stage.setScene(new Scene(root));
                 stage.show();

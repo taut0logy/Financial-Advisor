@@ -8,7 +8,32 @@ import java.util.Date;
 public class User {
     private String username,firstName,lastName,email;
     private Timestamp dateJoined;
-    private int id;
+    private int id,balance,budget;
+    private java.sql.Date budgetDate,budgetEndDate;
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
+    public Date getBudgetDate() {
+        return budgetDate;
+    }
+
+    public void setBudgetDate(java.sql.Date budgetDate) {
+        this.budgetDate = budgetDate;
+    }
+
+    public Date getBudgetEndDate() {
+        return budgetEndDate;
+    }
+
+    public void setBudgetEndDate(java.sql.Date budgetEndDate) {
+        this.budgetEndDate = budgetEndDate;
+    }
 
     public String getUsername() {
         return username;
@@ -58,7 +83,16 @@ public class User {
         this.id = id;
     }
 
-    public User(){}
+    public User(){balance=0;}
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     public User(String username, String firstName, String lastName, String email, Timestamp dateJoined, int id) {
         this.username = username;
         this.firstName = firstName;

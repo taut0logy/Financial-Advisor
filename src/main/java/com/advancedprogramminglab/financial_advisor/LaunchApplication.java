@@ -77,7 +77,7 @@ public class LaunchApplication extends Application {
             User user=new User();
             DBConnector.getUser(uid,user);
             LaunchApplication.setCurrentUser(user);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/hello-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout/dashboard-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             primaryStage.setTitle("Financial Advisor");
             primaryStage.setScene(scene);

@@ -1,5 +1,7 @@
 package com.advancedprogramminglab.financial_advisor;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -48,6 +51,10 @@ public class DBConnector {
                         user.setLastName(rs.getString(4));
                         user.setEmail(rs.getString(5));
                         user.setDateJoined(rs.getTimestamp(6));
+                        user.setBalance(rs.getInt(7));
+                        user.setBudget(rs.getInt(8));
+                        user.setBudgetDate(rs.getDate(9));
+                        user.setBudgetEndDate(rs.getDate(10));
                         con.close();
                         System.out.println("DBConnector.getUser(): "+user.getFirstName()+" "+user.getLastName());
                         return 1;
@@ -127,7 +134,7 @@ public class DBConnector {
             Connection con2 = DBConnector.get();
             Statement stmt2 = con2.createStatement();
             table="financial_advisor.user_info";
-            insert="insert into "+table+" values("+id+",'"+username+"','"+firstName+"','"+lastName+"','"+email+"',now())";
+            insert="insert into "+table+" (id,username,first_name,last_name,email,balance,budget) values("+id+",'"+username+"','"+firstName+"','"+lastName+"','"+email+"',0,0)";
             stmt2.executeUpdate(insert);
             con2.close();
             User user = new User();
@@ -171,6 +178,26 @@ public class DBConnector {
             return -1;
         } catch (Exception e) {
             String msg="DBConnector.updateUser(): "+e.getMessage();
+            System.out.println(msg);
+        }
+        return 0;
+    }
+
+    public static int updateBudget(int budget,Date budgetDate,Date budgetEndDate){
+        LaunchApplication.getCurrentUser().setBudget(budget);
+        LaunchApplication.getCurrentUser().setBudgetDate(budgetDate);
+        LaunchApplication.getCurrentUser().setBudgetEndDate(budgetEndDate);
+        Connection con = DBConnector.get();
+        String table="financial_advisor.user_info";
+        String update="update "+table+" set 'budget'='"+budget+"','budgetdate'='"+budgetDate+"','budgetenddate'='"+budgetEndDate+"' where ('id'='"+LaunchApplication.getCurrentUser().getId()+"')";
+        try {
+            assert con != null;
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(update);
+            con.close();
+            return 1;
+        } catch (Exception e) {
+            String msg="DBConnector.updateBudget(): "+e.getMessage();
             System.out.println(msg);
         }
         return 0;
@@ -286,4 +313,89 @@ public class DBConnector {
         return null;
 
     }
+
+    public static ArrayList<Transaction> getTransactions(int id) {
+        Connection con = DBConnector.get();
+        String table="financial_advisor."+String.valueOf(id);
+        String finduser="select * from "+table;
+        ArrayList<Transaction> transactions=new ArrayList<>();
+        try {
+            assert con != null;
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(finduser);
+            while (rs.next()){
+                Transaction t=new Gson().fromJson(rs.getString(2),Transaction.class);
+                transactions.add(t);
+            }
+            con.close();
+            return transactions;
+        } catch (Exception e) {
+            String msg="DBConnector.getTransactions(): "+e.getMessage();
+            System.out.println(msg);
+        }
+        return null;
+    }
+
+    static void updateUserBalance(int id, int balance) {
+        Connection con = DBConnector.get();
+        String table="financial_advisor.user_info";
+        String update="update "+table+" set balance="+balance+" where id="+id;
+        try {
+            assert con != null;
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(update);
+            con.close();
+        } catch (Exception e) {
+            String msg="DBConnector.updateUserBalance(): "+e.getMessage();
+            System.out.println(msg);
+        }
+    }
+
+    static void removeTransaction(int id, String string, String type, int i, String text) {
+        Connection con = DBConnector.get();
+        String table="financial_advisor."+String.valueOf(LaunchApplication.getCurrentUser().getId());
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("amount", i);
+        jsonObject.addProperty("type", type);
+        jsonObject.addProperty("description", text);
+        jsonObject.addProperty("date", string);
+        jsonObject.addProperty("color", "red");
+        String delete="delete from "+table+" where transaction='"+jsonObject.toString()+"'";
+        System.out.println("DBConnector.removeTransaction(): "+delete);
+        try {
+            assert con != null;
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(delete);
+            con.close();
+        } catch (Exception e) {
+            String msg="DBConnector.removeTransaction(): "+e.getMessage();
+            System.out.println(msg);
+        }
+    }
+
+    public static void addTransaction(int id, String string, String type, int i, String text) {
+        Connection con = DBConnector.get();
+        String table="financial_advisor."+String.valueOf(LaunchApplication.getCurrentUser().getId());
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("amount", i);
+        jsonObject.addProperty("type", type);
+        jsonObject.addProperty("description", text);
+        jsonObject.addProperty("date", string);
+        jsonObject.addProperty("color", "red");
+        System.out.println("DBConnector.addTransaction(): "+jsonObject.toString());
+        String insert="insert into "+table+" (transaction) values('"+jsonObject.toString()+"')";
+        System.out.println("DBConnector.addTransaction(): "+insert);
+        try {
+            assert con != null;
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(insert);
+            con.close();
+        } catch (Exception e) {
+            String msg="DBConnector.addTransaction(): "+e.getMessage();
+            System.out.println(msg);
+        }
+    }
+
 }
